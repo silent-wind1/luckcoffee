@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.OrderMapper">
+
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into sky_take_out.orders
+        (number, status, user_id, address_book_id, order_time, checkout_time, pay_method, pay_status, amount, remark,
+         phone, address, consignee, estimated_delivery_time, delivery_status, pack_amount, tableware_number,
+         tableware_status)
+        values (#{number}, #{status}, #{userId}, #{addressBookId}, #{orderTime}, #{checkoutTime}, #{payMethod},
+                #{payStatus}, #{amount}, #{remark}, #{phone}, #{address}, #{consignee},
+                #{estimatedDeliveryTime}, #{deliveryStatus}, #{packAmount}, #{tablewareNumber}, #{tablewareStatus})
+
+
+    </insert>
+    <insert id="insertDetail">
+        insert into sky_take_out.order_detail(name, image, order_id, dish_id, setmeal_id, dish_flavor, number, amount) values
+            (#{name},#{image},#{orderId},#{dishId},#{setmealId},#{dishFlavor},#{number},#{amount})
+    </insert>
+    <update id="update">
+            update sky_take_out.orders
+            <set>
+
+                <if test="payStatus != null">pay_status = #{payStatus},</if>
+                <if test="status != null">status = #{status},</if>
+                <if test="cancelReason != null">cancel_reason = #{cancelReason},</if>
+                <if test="cancelTime != null">cancel_time = #{cancelTime},</if>
+                <if test="checkoutTime != null">checkout_time = #{checkoutTime},</if>
+                <if test="rejectionReason != null">rejection_reason = #{rejectionReason},</if>
+                <if test="deliveryTime != null">delivery_time = #{deliveryTime},</if>
+                <if test="estimatedDeliveryTime != null">estimated_delivery_time = #{estimatedDeliveryTime},</if>
+
+            </set>
+            where id = #{id};
+    </update>
+    <select id="pageSelect" resultType="com.sky.entity.Orders">
+        select * from sky_take_out.orders
+            <where>
+                <if test=" currentId!=null and currentId!='' ">
+                    and user_id=#{currentId}
+                </if>
+                <if test=" status!=null and status!='' ">
+                    and status=#{status}
+                </if>
+            </where>
+
+
+    </select>
+    <select id="adminPage" resultType="com.sky.entity.Orders">
+        select * from sky_take_out.orders
+            <where>
+                <if test=" number!=null and number!='' ">
+                    and number=#{number}
+                </if>
+                <if test=" status==null">
+                    and status in(2,3,4,5,6)
+                </if>
+                <if test=" status!=null and status!='' ">
+                    and status=#{status}
+                </if>
+                <if test=" phone!=null and phone!='' ">
+                    and phone=#{phone}
+                </if>
+                <if test=" beginTime!=null and endTime!=null ">
+                    and order_time between #{beginTime} and #{endTime}
+                </if>
+
+            </where>
+    </select>
+    <select id="selectByTime" resultType="com.sky.entity.Orders">
+        select * from sky_take_out.orders
+            <where>
+                <if test=" status!=null">
+                    and status =#{status}
+                </if>
+                <if test=" begin!=null and end!=null ">
+                    and order_time between #{begin} and #{end}
+                </if>
+            </where>
+    </select>
+    <select id="selectdetail" resultType="com.sky.dto.GoodsSalesDTO">
+        select od.name,sum(od.number) number from sky_take_out.orders as os,sky_take_out.order_detail as od
+            <where>
+                <if test=" status!=null">
+                    and status =#{status}
+                </if>
+                <if test=" start!=null and last!=null ">
+                    and order_time between #{start} and #{last}
+                </if>
+                and os.id = od.order_id
+            </where>
+            group by name
+            order by number desc
+            limit 0,10
+    </select>
+</mapper>

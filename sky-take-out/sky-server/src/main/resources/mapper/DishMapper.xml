@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.DishMapper">
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into sky_take_out.dish(name, category_id, price, image, description, status, create_time, update_time, create_user, update_user) VALUES
+            (#{name},#{categoryId},#{price},#{image},#{description},#{status},#{createTime},#{updateTime},#{createUser},#{updateUser})
+    </insert>
+    <update id="update">
+        update sky_take_out.dish
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" >
+        delete from sky_take_out.dish where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="page" resultType="com.sky.vo.DishVO">
+        select dish.*,category.name as categoryName from sky_take_out.dish,sky_take_out.category
+        <where>
+            <if test="name != null and name != ''">
+                and dish.name like concat('%',#{name},'%')
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and dish.status = #{status}
+            </if>
+            and category_id = sky_take_out.category.id
+        </where>
+        order by id desc
+    </select>
+    <select id="selecyBycId" resultType="com.sky.entity.Dish">
+        select * from sky_take_out.dish
+        <where>
+            <if test="categoryId != null and categoryId !='' ">
+                category_id=#{categoryId}
+            </if>
+            <if test="name != null and name !='' ">
+                name like concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+</mapper>
