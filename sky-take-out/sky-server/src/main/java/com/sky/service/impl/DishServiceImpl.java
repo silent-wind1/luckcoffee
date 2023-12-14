@@ -9,6 +9,7 @@ import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
+import com.sky.entity.Setmeal;
 import com.sky.exception.DeletionNotAllowedException;
 //import com.sky.exception.DishErroyException;
 import com.sky.exception.DishErroyException;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -51,7 +53,7 @@ public class DishServiceImpl implements DishService {
     @Transactional(rollbackFor = Exception.class)
     public void add(DishDTO dishDTO) {
         Dish dish = new Dish();
-        BeanUtils.copyProperties(dishDTO,dish);
+        BeanUtils.copyProperties(dishDTO, dish);
         dish.setStatus(1);
         dish.setCreateTime(LocalDateTime.now());
         dish.setUpdateTime(LocalDateTime.now());
@@ -59,7 +61,7 @@ public class DishServiceImpl implements DishService {
         dish.setUpdateUser(BaseContext.getCurrentId());
         dishMapper.add(dish);
         List<DishFlavor> flavors = dishDTO.getFlavors();
-        if (flavors!=null  && flavors.size() > 0) {
+        if (flavors != null && flavors.size() > 0) {
             for (DishFlavor flavor : flavors) {
                 flavor.setDishId(dish.getId());
             }
@@ -70,32 +72,50 @@ public class DishServiceImpl implements DishService {
     @Override
     public PageResult page(DishPageQueryDTO dto) {
         log.info("用户id = {}", BaseContext.getCurrentId());
-        PageHelper.startPage(dto.getPage(),dto.getPageSize());
-        if (dto.getName()!=null){
+        PageHelper.startPage(dto.getPage(), dto.getPageSize());
+        if (dto.getName() != null) {
             dto.setName(dto.getName().trim());
         }
         Page<DishVO> page = dishMapper.page(dto);
-        return new PageResult(page.getTotal(),page.getResult());
+        return new PageResult(page.getTotal(), page.getResult());
     }
+
 
     @Override
     public void statusChange(Integer status, Long id) {
-
-        if (status==0) {
-            List<Integer> byDishID = setmealDishMapper.getByDishID(id);
-            for (Integer integer : byDishID) {
-                if (integer > 0) {
-                    throw new DishException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL_STATUS);
+        Dish dish = Dish.builder().id(id).status(status).build();
+        dishMapper.update(dish);
+        if (status == StatusConstant.DISABLE) {
+            // 如果是停售操作，还需要将包含当前菜品的套餐也停售
+            List<Long> dishIds = new ArrayList<>();
+            dishIds.add(id);
+            // select setmeal_id from setmeal_dish where dish_id in (?,?,?)
+            List<Long> setmealIds = setmealDishMapper.getSetmealIdsByDishIds(dishIds);
+            if (setmealIds != null && setmealIds.size() > 0) {
+                for (Long setmealId : setmealIds) {
+                    Setmeal setmeal = Setmeal.builder().id(setmealId).status(StatusConstant.DISABLE).build();
+                    setmealMapper.update(setmeal);
                 }
             }
         }
-
         dishMapper.statusChange(status, id);
     }
 
+    /**
+     * 菜品起售停售
+     *
+     * @param status
+     * @param id
+     */
+    @Transactional
+    public void startOrStop(Integer status, Long id) {
+
+    }
+
+
     @Override
     public List selecyBycId(Integer categoryId, String name) {
-        List<Dish> list = dishMapper.selecyBycId(categoryId,name);
+        List<Dish> list = dishMapper.selecyBycId(categoryId, name);
 
         return list;
     }
@@ -105,7 +125,7 @@ public class DishServiceImpl implements DishService {
         Dish dish = dishMapper.selectById(id);
         List<DishFlavor> dishFlavors = dishFlavorMapper.selectById(id);
         DishVO dishVO = new DishVO();
-        BeanUtils.copyProperties(dish,dishVO);
+        BeanUtils.copyProperties(dish, dishVO);
         dishVO.setFlavors(dishFlavors);
         return dishVO;
     }
@@ -113,21 +133,24 @@ public class DishServiceImpl implements DishService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteById(List<Long> ids) {
+        //判断当前菜品是否能够删除---是否存在起售中的菜品？？
         for (Long id : ids) {
             Dish dish = dishMapper.selectByIds(id);
-            if (dish.getStatus()==1){
+            if (dish.getStatus() == 1) {
                 throw new DishErroyException(MessageConstant.DISH_ON_SALE);
             }
         }
+        //判断当前菜品是否能够删除---是否被套餐关联了？？
         List<Long> setmealIds = setmealDishMapper.getSetmealIdsByDishIds(ids);
         if (setmealIds != null && setmealIds.size() > 0) {
+            //当前菜品被套餐关联了，不能删除
             throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
         }
-        dishMapper.deleteById(ids);
+        //删除菜品表中的菜品数据
         for (Long id : ids) {
+            dishMapper.deleteById(ids);
             dishFlavorMapper.deleteById(id);
         }
-
     }
 
     @Override
@@ -142,7 +165,7 @@ public class DishServiceImpl implements DishService {
         dishFlavorMapper.deleteById(dish.getId());
 
         List<DishFlavor> flavors = dishVO.getFlavors();
-        if (flavors!=null && flavors.size()>0) {
+        if (flavors != null && flavors.size() > 0) {
             for (DishFlavor flavor : flavors) {
 
                 flavor.setDishId(dish.getId());
@@ -157,7 +180,7 @@ public class DishServiceImpl implements DishService {
     @Override
     public List getBycateId(Long categoryId) {
 
-        List<DishVO> list = dishMapper.getBycateId(categoryId,StatusConstant.ENABLE);
+        List<DishVO> list = dishMapper.getBycateId(categoryId, StatusConstant.ENABLE);
 
         for (DishVO dishVO : list) {
             List<DishFlavor> dishFlavors = dishFlavorMapper.selectById(dishVO.getId());

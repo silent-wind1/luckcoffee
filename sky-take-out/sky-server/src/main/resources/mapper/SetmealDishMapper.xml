@@ -7,19 +7,12 @@
         <foreach collection="setmealDishes" item="sd" separator=",">
             (#{sd.setmealId},#{sd.dishId},#{sd.name},#{sd.price},#{sd.copies})
         </foreach>
-
-
-
     </insert>
 
     <select id="getSetmealIdsByDishIds" resultType="java.lang.Long">
-
         select setmeal_id from sky_take_out.setmeal_dish where dish_id in
-
         <foreach collection="ids" item="dishId" separator="," open="(" close=")">
-
             #{dishId}
-
         </foreach>
     </select>
 </mapper>

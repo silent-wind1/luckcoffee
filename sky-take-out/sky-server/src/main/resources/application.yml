@@ -13,7 +13,7 @@ spring:
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
   redis:
-    host: localhost
+    host: 101.35.87.146
     password: '031214'
 
 mybatis:
