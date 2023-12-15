@@ -1,2 +1,2 @@
 # luckcoffee
-luckcoffee一款毕设项目
+luck coffee 没错就是那个 luck coffee
