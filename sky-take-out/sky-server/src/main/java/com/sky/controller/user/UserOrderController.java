@@ -5,6 +5,7 @@ import com.sky.dto.OrdersSubmitDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
+import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
 import io.swagger.annotations.Api;
@@ -32,8 +33,8 @@ public class UserOrderController {
     @PutMapping("/payment")
     @ApiOperation("订单支付")
     public Result payment(@RequestBody OrdersPaymentDTO ordersPaymentDTO){
-        orderService.payment(ordersPaymentDTO);
-        return Result.success();
+        Result<OrderPaymentVO> payment = orderService.payment(ordersPaymentDTO);
+        return Result.success(payment);
     }
 
     @ApiOperation("历史订单查询")

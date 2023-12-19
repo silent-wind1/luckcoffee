@@ -91,7 +91,7 @@ public class DishServiceImpl implements DishService {
             dishIds.add(id);
             // select setmeal_id from setmeal_dish where dish_id in (?,?,?)
             List<Long> setmealIds = setmealDishMapper.getSetmealIdsByDishIds(dishIds);
-            if (setmealIds != null && setmealIds.size() > 0) {
+            if (setmealIds != null && !setmealIds.isEmpty()) {
                 for (Long setmealId : setmealIds) {
                     Setmeal setmeal = Setmeal.builder().id(setmealId).status(StatusConstant.DISABLE).build();
                     setmealMapper.update(setmeal);
@@ -116,7 +116,6 @@ public class DishServiceImpl implements DishService {
     @Override
     public List selecyBycId(Integer categoryId, String name) {
         List<Dish> list = dishMapper.selecyBycId(categoryId, name);
-
         return list;
     }
 
@@ -142,7 +141,7 @@ public class DishServiceImpl implements DishService {
         }
         //判断当前菜品是否能够删除---是否被套餐关联了？？
         List<Long> setmealIds = setmealDishMapper.getSetmealIdsByDishIds(ids);
-        if (setmealIds != null && setmealIds.size() > 0) {
+        if (setmealIds != null && !setmealIds.isEmpty()) {
             //当前菜品被套餐关联了，不能删除
             throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
         }
@@ -165,13 +164,12 @@ public class DishServiceImpl implements DishService {
         dishFlavorMapper.deleteById(dish.getId());
 
         List<DishFlavor> flavors = dishVO.getFlavors();
-        if (flavors != null && flavors.size() > 0) {
+        if (flavors != null && !flavors.isEmpty()) {
             for (DishFlavor flavor : flavors) {
 
                 flavor.setDishId(dish.getId());
 
             }
-
             dishFlavorMapper.insert(flavors);
         }
 

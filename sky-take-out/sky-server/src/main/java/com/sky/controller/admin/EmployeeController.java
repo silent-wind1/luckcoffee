@@ -29,7 +29,6 @@ import java.util.Map;
 @Slf4j
 @Api(tags = "员工管理")
 public class EmployeeController {
-
     @Autowired
     private EmployeeService employeeService;
     @Autowired
@@ -80,7 +79,7 @@ public class EmployeeController {
 
     @ApiOperation(value = "修改密码")
     @PutMapping("/editPassword")
-    public Result updateps(@RequestBody PasswordEditDTO passwordEditDTO){
+    public Result updateps(@RequestBody PasswordEditDTO passwordEditDTO) {
         employeeService.updateps(passwordEditDTO);
 
         return Result.success();
@@ -88,7 +87,7 @@ public class EmployeeController {
 
     @ApiOperation(value = "新增")
     @PostMapping
-    public Result save(@RequestBody EmployeeDTO employee){
+    public Result save(@RequestBody EmployeeDTO employee) {
 
         employeeService.save(employee);
         return Result.success();
@@ -96,31 +95,30 @@ public class EmployeeController {
 
     @ApiOperation(value = "分页查询")
     @GetMapping("/page")
-    public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO){
+    public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO) {
         PageResult page = employeeService.page(employeePageQueryDTO);
         return Result.success(page);
     }
 
     @ApiOperation(value = "修改状态")
     @PostMapping("/status/{status}")
-    public Result status(@RequestParam Long id,@PathVariable Integer status){
-        employeeService.startOrstop(status,id);
+    public Result status(@RequestParam Long id, @PathVariable Integer status) {
+        employeeService.startOrstop(status, id);
         return Result.success();
     }
 
     @ApiOperation(value = "根据id获取")
     @GetMapping("/{id}")
-    public Result getByid(@PathVariable Long id){
+    public Result getByid(@PathVariable Long id) {
         Employee employee = employeeService.getByid(id);
         return Result.success(employee);
     }
 
     @ApiOperation(value = "修改员工信息")
     @PutMapping
-    public Result update(@RequestBody EmployeeDTO employee){
+    public Result update(@RequestBody EmployeeDTO employee) {
 
         employeeService.update(employee);
         return Result.success();
     }
-
 }

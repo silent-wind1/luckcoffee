@@ -22,10 +22,7 @@ public class UserCategoryController {
     @ApiOperation("查询分类")
     @GetMapping("/list")
     public Result getCategory(){
-
         List<Category> category = categoryService.getCategory();
-
-
         return Result.success(category);
     }
 

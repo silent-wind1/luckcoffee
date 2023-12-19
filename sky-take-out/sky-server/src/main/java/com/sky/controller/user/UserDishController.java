@@ -23,11 +23,11 @@ public class UserDishController {
 
     @ApiOperation("根据分类id查询菜品")
     @GetMapping("/list")
-    public Result getBycateId(Long categoryId){
-        String key ="dish_"+categoryId;
+    public Result getBycateId(Long categoryId) {
+        String key = "dish_" + categoryId;
 
-        List<DishVO> list = (List<DishVO>)redisTemplate.opsForValue().get(key);
-        if (list!=null&&list.size()>0){
+        List<DishVO> list = (List<DishVO>) redisTemplate.opsForValue().get(key);
+        if (list != null && !list.isEmpty()) {
             return Result.success(list);
         }
 
