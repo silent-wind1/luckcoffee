@@ -54,7 +54,7 @@
           v-if="[2, 3, 4].includes(orderStatus)"
           key="orderDishes"
           prop="orderDishes"
-          label="订单菜品"
+          label="订单咖啡"
         />
         <el-table-column
           v-if="[0].includes(orderStatus)"
@@ -307,7 +307,7 @@
           </div>
 
           <div class="dish-info">
-            <div class="dish-label">菜品</div>
+            <div class="dish-label">咖啡</div>
             <div class="dish-list">
               <div
                 v-for="(item, index) in diaForm.orderDetailList"
@@ -324,7 +324,7 @@
               </div>
             </div>
             <div class="dish-all-amount">
-              <label>菜品小计</label>
+              <label>咖啡小计</label>
               <span
                 >￥{{
                   (diaForm.amount - 6 - diaForm.packAmount).toFixed(2)
@@ -339,7 +339,7 @@
             <div class="amount-label">费用</div>
             <div class="amount-list">
               <div class="dish-amount">
-                <span class="amount-name">菜品小计：</span>
+                <span class="amount-name">咖啡小计：</span>
                 <span class="amount-price"
                   >￥{{
                     ((diaForm.amount - 6 - diaForm.packAmount).toFixed(2) *
@@ -528,7 +528,7 @@ export default class extends Vue {
     },
     {
       value: 2,
-      label: '菜品已销售完，暂时无法接单',
+      label: '咖啡已销售完，暂时无法接单',
     },
     {
       value: 3,
@@ -547,7 +547,7 @@ export default class extends Vue {
     },
     {
       value: 2,
-      label: '菜品已销售完，暂时无法接单',
+      label: '咖啡已销售完，暂时无法接单',
     },
     {
       value: 3,

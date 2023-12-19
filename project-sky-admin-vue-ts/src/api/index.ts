@@ -19,7 +19,7 @@ import request from '@/utils/request'
     'url': `/workspace/overviewOrders`,
     'method': 'get'
   })
-// 菜品总览
+// 咖啡总览
 export const getOverviewDishes = () =>
 request({
   'url': `/workspace/overviewDishes`,

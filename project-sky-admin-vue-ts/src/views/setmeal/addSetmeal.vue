@@ -34,20 +34,20 @@
           </el-form-item>
         </div>
         <div>
-          <el-form-item label="套餐菜品:"
+          <el-form-item label="套餐咖啡:"
                         required>
             <el-form-item>
               <div class="addDish">
                 <span v-if="dishTable.length == 0"
                       class="addBut"
                       @click="openAddDish('new')">
-                  + 添加菜品</span>
+                  + 添加咖啡</span>
                 <div v-if="dishTable.length != 0"
                      class="content">
                   <div class="addBut"
                        style="margin-bottom: 20px"
                        @click="openAddDish('change')">
-                    + 添加菜品
+                    + 添加咖啡
                   </div>
                   <div class="table">
                     <el-table :data="dishTable"
@@ -143,14 +143,14 @@
       </el-form>
     </div>
     <el-dialog v-if="dialogVisible"
-               title="添加菜品"
+               title="添加咖啡"
                class="addDishList"
                :visible.sync="dialogVisible"
                width="60%"
                :before-close="handleClose">
       <el-input v-model="value"
                 class="seachDish"
-                placeholder="请输入菜品名称进行搜索"
+                placeholder="请输入咖啡名称进行搜索"
                 style="width: 293px; height: 40px"
                 size="small"
                 clearable>
@@ -239,7 +239,7 @@ export default class extends Vue {
       },
       image: {
         required: true,
-        message: '菜品图片不能为空'
+        message: '咖啡图片不能为空'
       },
       price: {
         required: true,
@@ -303,7 +303,7 @@ export default class extends Vue {
     })
   }
 
-  // 通过套餐ID获取菜品列表分类
+  // 通过套餐ID获取咖啡列表分类
   // private getDishList (id:number) {
   //   getDishListType({id}).then(res => {
   //     if (res.data.code == 200) {
@@ -315,24 +315,24 @@ export default class extends Vue {
   //   })
   // }
 
-  // 删除套餐菜品
+  // 删除套餐咖啡
   delDishHandle(index: any) {
     this.dishTable.splice(index, 1)
     this.checkList = this.dishTable
     // this.checkList.splice(index, 1)
   }
 
-  // 获取添加菜品数据 - 确定加菜倒序展示
+  // 获取添加咖啡数据 - 确定加菜倒序展示
   private getCheckList(value: any) {
     this.checkList = [...value].reverse()
   }
 
-  // 添加菜品
+  // 添加咖啡
   openAddDish(st: string) {
     this.seachKey = ''
     this.dialogVisible = true
   }
-  // 取消添加菜品
+  // 取消添加咖啡
   handleClose(done: any) {
     // this.$refs.adddish.close()
     this.dialogVisible = false
@@ -340,7 +340,7 @@ export default class extends Vue {
     // this.dialogVisible = false
   }
 
-  // 保存添加菜品列表
+  // 保存添加咖啡列表
   public addTableList() {
     this.dishTable = JSON.parse(JSON.stringify(this.checkList))
     this.dishTable.forEach((n: any) => {
@@ -353,7 +353,7 @@ export default class extends Vue {
     ;(this.$refs[formName] as any).validate((valid: any) => {
       if (valid) {
         if (this.dishTable.length === 0) {
-          return this.$message.error('套餐下菜品不能为空')
+          return this.$message.error('套餐下咖啡不能为空')
         }
         if (!this.ruleForm.image) return this.$message.error('套餐图片不能为空')
         let prams = { ...this.ruleForm } as any

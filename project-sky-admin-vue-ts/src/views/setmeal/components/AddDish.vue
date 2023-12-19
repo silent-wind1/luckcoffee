@@ -38,7 +38,7 @@
     </div>
     <div class="ritCont">
       <div class="tit">
-        已选菜品({{ checkedListAll.length }})
+        已选咖啡({{ checkedListAll.length }})
       </div>
       <div class="items">
         <div v-for="(item, ind) in checkedListAll"
@@ -98,7 +98,7 @@ export default class extends Vue {
     this.getDishType()
     // 初始化选项
     this.checkedList = this.checkList.map((it: any) => it.name)
-    // 已选项的菜品-详细信息
+    // 已选项的咖啡-详细信息
     this.checkedListAll = this.checkList.reverse()
   }
   // 获取套餐分类
@@ -120,7 +120,7 @@ export default class extends Vue {
     })
   }
 
-  // 通过套餐ID获取菜品列表分类
+  // 通过套餐ID获取咖啡列表分类
   private getDishList(id: number) {
     queryDishList({ categoryId: id }).then(res => {
       if (res && res.data && res.data.code === 1) {
@@ -146,7 +146,7 @@ export default class extends Vue {
     })
   }
 
-  // 关键词收搜菜品列表分类
+  // 关键词收搜咖啡列表分类
   private getDishForName(name: any) {
     queryDishList({ name }).then(res => {
       if (res && res.data && res.data.code === 1) {
@@ -166,13 +166,13 @@ export default class extends Vue {
     this.keyInd = ind
     this.getDishList(id)
   }
-  // 添加菜品
+  // 添加咖啡
   private checkedListHandle(value: [string]) {
     // TODO 实现倒序 由于value是组件内封装无法从前面添加 所有取巧处理倒序添加
     // 倒序展示 - 数据处理前反正 为正序
     this.checkedListAll.reverse()
-    // value 是一个只包含菜品名的数组 需要从 dishList中筛选出 对应的详情
-    // 操作添加菜品
+    // value 是一个只包含咖啡名的数组 需要从 dishList中筛选出 对应的详情
+    // 操作添加咖啡
     const list = this.allDishList.filter((item: any) => {
       let data
       value.forEach((it: any) => {
@@ -182,7 +182,7 @@ export default class extends Vue {
       })
       return data
     })
-    // 编辑的时候需要与已有菜品合并
+    // 编辑的时候需要与已有咖啡合并
     // 与当前请求下的选择性 然后去重就是当前的列表
     const dishListCat = [...this.checkedListAll, ...list]
     let arrData: any[] = []

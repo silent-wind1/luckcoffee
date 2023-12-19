@@ -151,7 +151,7 @@
               >按销量</span
             >
           </div>
-          <BarChart :chart-data="chartDataC" title="菜品分类占比" />
+          <BarChart :chart-data="chartDataC" title="咖啡分类占比" />
         </div>
         <div>
           <MixedChart :chart-data="chartDataB" title="菜单销售排行" />
@@ -423,7 +423,7 @@ export default class extends Vue {
         this.$message.error('请求出错了：' + err.message)
       })
   }
-  // 获取菜品分类销售排行 - 菜品分类占比 -当日
+  // 获取咖啡分类销售排行 - 咖啡分类占比 -当日
   private getSalesRankData() {
     getSalesRanking({ type: this.typeB, date: this.dataTime })
       .then((res) => {
@@ -493,7 +493,7 @@ export default class extends Vue {
         this.$message.error('请求出错了：' + err.message)
       })
   }
-  // 获取当日菜品销售排行 - 销售排行图
+  // 获取当日咖啡销售排行 - 销售排行图
   private getDayRankingData() {
     getDayRanking({ type: this.dataType, date: this.dataTime })
       .then((res) => {
@@ -644,7 +644,7 @@ export default class extends Vue {
       })
   }
 
-  // 获取时间范围之内的菜品类别销售汇总 -  菜品分类占比 - 时间段
+  // 获取时间范围之内的咖啡类别销售汇总 -  咖啡分类占比 - 时间段
   private getTimeQuantumTypeData() {
     getTimeQuantumType({
       type: this.typeB,
@@ -682,7 +682,7 @@ export default class extends Vue {
         this.$message.error('请求出错了：' + err.message)
       })
   }
-  // 获取时间范围之内的菜品销售排行
+  // 获取时间范围之内的咖啡销售排行
   private getTimeQuantumDishesDataes() {
     getTimeQuantumDishes({ start: this.stateTime, end: this.endTime })
       .then((res) => {

@@ -4186,7 +4186,7 @@ var _index = __webpack_require__(/*! ../../utils/index.js */ 29);function _inter
       rightIdAndType: {},
       phoneData: '',
       tablewareNumber: 0,
-      shopStatus: null,
+      shopStatus: 1,
       scrollTop: 0,
       menuHeight: 0, // 左边菜单的高度
       menuItemHeight: 0, // 左边菜单item的高度

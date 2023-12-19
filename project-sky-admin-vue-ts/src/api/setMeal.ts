@@ -58,7 +58,7 @@ export const setmealStatusByStatus = (params: any) => {
   })
 }
 
-//菜品分类数据查询
+//咖啡分类数据查询
 export const dishCategoryList = (params: any) => {
   return request({
     url: `/category/list`,

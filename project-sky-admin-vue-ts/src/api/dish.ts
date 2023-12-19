@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 /**
  *
- * 菜品管理
+ * 咖啡管理
  *
  **/
 // 查询列表接口
@@ -48,7 +48,7 @@ export const queryDishById = (id: string | (string | null)[]) => {
   })
 }
 
-// 获取菜品分类列表
+// 获取咖啡分类列表
 export const getCategoryList = (params: any) => {
   return request({
     url: '/category/list',
@@ -57,7 +57,7 @@ export const getCategoryList = (params: any) => {
   })
 }
 
-// 查菜品列表的接口
+// 查咖啡列表的接口
 export const queryDishList = (params: any) => {
   return request({
     url: '/dish/list',
@@ -87,7 +87,7 @@ export const dishStatusByStatus = (params: any) => {
   })
 }
 
-//菜品分类数据查询
+//咖啡分类数据查询
 export const dishCategoryList = (params: any) => {
   return request({
     url: `/category/list`,

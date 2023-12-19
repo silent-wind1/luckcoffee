@@ -84,7 +84,7 @@ const router = new Router({
           component: () =>
             import(/* webpackChunkName: "shopTable" */ "@/views/dish/index.vue"),
           meta: {
-            title: "菜品管理",
+            title: "咖啡管理",
             icon: "icon-dish"
           }
         },
@@ -93,11 +93,11 @@ const router = new Router({
           component: () =>
             import(/* webpackChunkName: "shopTable" */ "@/views/dish/addDishtype.vue"),
           meta: {
-            title: "添加菜品",
+            title: "添加咖啡",
             hidden: true
           }
         },
-        
+
         {
           path: "category",
           component: () =>
@@ -116,7 +116,7 @@ const router = new Router({
             icon: "icon-employee"
           }
         },
-        
+
         {
           path: "/employee/add",
           component: () =>
@@ -126,7 +126,7 @@ const router = new Router({
             hidden: true
           }
         },
-        
+
         {
           path: "/setmeal/add",
           component: () =>

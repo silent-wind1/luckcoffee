@@ -107,7 +107,7 @@
                 </p>
                 <p>
                   <span
-                    ><label>菜品：</label>{{ item.details.orderDishes }}</span
+                    ><label>咖啡：</label>{{ item.details.orderDishes }}</span
                   >
                 </p>
               </div>

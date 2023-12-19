@@ -263,7 +263,7 @@ export default class extends Vue {
     let params: any = {}
     if (typeof row === 'string') {
       if (this.checkList.length == 0) {
-        this.$message.error('批量操作，请先勾选操作菜品！')
+        this.$message.error('批量操作，请先勾选操作咖啡！')
         return false
       }
       params.ids = this.checkList.join(',')

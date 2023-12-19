@@ -39,14 +39,14 @@ export const getprivilege = (params: any) =>
     'method': 'get'
   })
 
-// 获取菜品分类销售排行 - 菜品分类占比 -当日
+// 获取咖啡分类销售排行 - 咖啡分类占比 -当日
 export const getSalesRanking = (params: any) =>
   request({
     'url': `/report/categoryCollect/${params.type}/${params.date}`,
     'method': 'get'
   })
 
-// 获取当日菜品销售排行
+// 获取当日咖啡销售排行
 export const getDayRanking = (params: any) =>
   request({
     'url': `/report/currentDishRank/${params.date}`,
@@ -67,14 +67,14 @@ export const getTimeQuantumReceivables = (params: any) =>
     'method': 'get'
   })
 
-// 获取时间范围之内的菜品类别销售汇总 -  菜品分类占比 - 时间段
+// 获取时间范围之内的咖啡类别销售汇总 -  咖啡分类占比 - 时间段
 export const getTimeQuantumType = (params: any) =>
   request({
     'url': `/report/dateCategoryCollect/${params.type}/${params.start}/${params.end}`,
     'method': 'get'
   })
 
-// 获取时间范围之内的菜品销售排行 - 菜品销售排行
+// 获取时间范围之内的咖啡销售排行 - 咖啡销售排行
 export const getTimeQuantumDishes = (params: any) =>
   request({
     'url': `/report/dishRankForDate/${params.start}/${params.end}`,

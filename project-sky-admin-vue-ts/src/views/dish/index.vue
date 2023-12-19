@@ -2,15 +2,15 @@
   <div class="dashboard-container">
     <div class="container">
       <div class="tableBar">
-        <label style="margin-right: 10px">菜品名称：</label>
+        <label style="margin-right: 10px">咖啡名称：</label>
         <el-input v-model="input"
-                  placeholder="请填写菜品名称"
+                  placeholder="请填写咖啡名称"
                   style="width: 14%"
                   clearable
                   @clear="init"
                   @keyup.enter.native="initFun" />
 
-        <label style="margin-right: 10px; margin-left: 20px">菜品分类：</label>
+        <label style="margin-right: 10px; margin-left: 20px">咖啡分类：</label>
         <el-select v-model="categoryId"
                    style="width: 14%"
                    placeholder="请选择"
@@ -51,7 +51,7 @@
           <el-button type="primary"
                      style="margin-left: 15px"
                      @click="addDishtype('add')">
-            + 新建菜品
+            + 新建咖啡
           </el-button>
         </div>
       </div>
@@ -63,7 +63,7 @@
         <el-table-column type="selection"
                          width="25" />
         <el-table-column prop="name"
-                         label="菜品名称" />
+                         label="咖啡名称" />
         <el-table-column prop="image"
                          label="图片">
           <template slot-scope="{ row }">
@@ -78,7 +78,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="categoryName"
-                         label="菜品分类" />
+                         label="咖啡分类" />
         <el-table-column label="售价">
           <template slot-scope="scope">
             <span style="margin-right: 10px">￥{{ (scope.row.price ).toFixed(2)*100/100 }}</span>
@@ -233,7 +233,7 @@ export default class extends Vue {
         return this.$message.error('请选择删除对象')
       }
     }
-    this.$confirm('确认删除该菜品, 是否继续?', '确定删除', {
+    this.$confirm('确认删除该咖啡, 是否继续?', '确定删除', {
       confirmButtonText: '删除',
       cancelButtonText: '取消',
       type: 'warning'
@@ -252,7 +252,7 @@ export default class extends Vue {
         })
     })
   }
-  //获取菜品分类下拉数据
+  //获取咖啡分类下拉数据
   private getDishCategoryList() {
     dishCategoryList({
       type: 1
@@ -276,7 +276,7 @@ export default class extends Vue {
     let params: any = {}
     if (typeof row === 'string') {
       if (this.checkList.length === 0) {
-        this.$message.error('批量操作，请先勾选操作菜品！')
+        this.$message.error('批量操作，请先勾选操作咖啡！')
         return false
       }
       params.id = this.checkList.join(',')
@@ -286,7 +286,7 @@ export default class extends Vue {
       params.status = row.status ? '0' : '1'
     }
     this.dishState = params
-    this.$confirm('确认更改该菜品状态?', '提示', {
+    this.$confirm('确认更改该咖啡状态?', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning'
@@ -295,7 +295,7 @@ export default class extends Vue {
       dishStatusByStatus(this.dishState)
         .then(res => {
           if (res && res.data && res.data.code === 1) {
-            this.$message.success('菜品状态已经更改成功！')
+            this.$message.success('咖啡状态已经更改成功！')
             this.init()
           } else {
             this.$message.error(res.data.msg)
